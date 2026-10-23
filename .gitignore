@@ -1,0 +1,18 @@
+# Frontend dependencies and build output
+node_modules/
+dist/
+build/
+
+# Backend build output
+target/
+
+# Secrets (API keys and passwords go here, never in Git)
+.env
+*.env
+
+# Editor and system files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
