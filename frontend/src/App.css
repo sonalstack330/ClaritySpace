@@ -69,3 +69,84 @@
 .card h3 {
   margin-top: 0;
 }
+/* Scoring matrix */
+.matrix-wrapper {
+  overflow-x: auto;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.matrix th,
+.matrix td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.matrix th {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.weight-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.weight-control input[type='range'] {
+  accent-color: var(--color-primary);
+}
+
+.weight-value {
+  min-width: 1.5rem;
+  font-weight: 600;
+}
+
+.matrix select {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Result cards */
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.score-card h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.score-card.best {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+.score-percent {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+}
+
+.score-bar {
+  height: 8px;
+  background-color: var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-bar-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: width 0.3s ease;
+}
