@@ -2,7 +2,7 @@ function getToday() {
   return new Date().toLocaleDateString('en-CA')
 }
 
-function Dashboard({ decisions, onDeleteDecision, onNavigate }) {
+function Dashboard({ decisions, onDeleteDecision, onNavigate, onOpenComparison }) {
   const today = getToday()
   const activeCount = decisions.filter((decision) => decision.status === 'active').length
   const dueCount = decisions.filter(
@@ -77,6 +77,15 @@ function Dashboard({ decisions, onDeleteDecision, onNavigate }) {
                     </span>
                   )}
                 </p>
+                                <div className="decision-actions">
+                  <button
+                    type="button"
+                    className="button secondary"
+                    onClick={() => onOpenComparison(decision.id)}
+                  >
+                    Compare options
+                  </button>
+                </div>
               </article>
             )
           })}
