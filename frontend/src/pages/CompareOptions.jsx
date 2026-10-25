@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 import { calculateScores } from '../utils/scoring'
 
 const initialOptions = [
@@ -20,9 +20,9 @@ const initialRatings = {
 }
 
 function CompareOptions() {
-  const [options, setOptions] = useState(initialOptions)
-  const [criteria, setCriteria] = useState(initialCriteria)
-  const [ratings, setRatings] = useState(initialRatings)
+  const [options, setOptions] = useLocalStorage('clarityspace-options', initialOptions)
+  const [criteria, setCriteria] = useLocalStorage('clarityspace-criteria', initialCriteria)
+  const [ratings, setRatings] = useLocalStorage('clarityspace-ratings', initialRatings)
 
   function handleOptionNameChange(optionId, name) {
     setOptions(
@@ -77,6 +77,12 @@ function CompareOptions() {
         [criterionId]: Number(value),
       },
     })
+  }
+
+    function handleReset() {
+    setOptions(initialOptions)
+    setCriteria(initialCriteria)
+    setRatings(initialRatings)
   }
 
   const results = calculateScores(options, criteria, ratings)
@@ -193,6 +199,13 @@ function CompareOptions() {
             onClick={handleAddCriterion}
           >
             Add criterion
+          </button>
+                    <button
+            type="button"
+            className="button secondary"
+            onClick={handleReset}
+          >
+            Reset to sample
           </button>
         </div>
       </section>
