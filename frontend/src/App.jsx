@@ -10,9 +10,10 @@ import Outcomes from './pages/Outcomes'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('dashboard')
-   const [decisions, setDecisions] = useLocalStorage('clarityspace-decisions', [])
+  const [selectedDecisionId, setSelectedDecisionId] = useState(null)
+  const [decisions, setDecisions] = useLocalStorage('clarityspace-decisions', [])
 
-   function handleAddDecision(decision) {
+  function handleAddDecision(decision) {
     setDecisions([decision, ...decisions])
     setCurrentPage('dashboard')
   }
@@ -21,16 +22,38 @@ function App() {
     setDecisions(decisions.filter((decision) => decision.id !== decisionId))
   }
 
+  function handleUpdateDecision(decisionId, changes) {
+    setDecisions(
+      decisions.map((decision) =>
+        decision.id === decisionId ? { ...decision, ...changes } : decision
+      )
+    )
+  }
+
+  function handleOpenComparison(decisionId) {
+    setSelectedDecisionId(decisionId)
+    setCurrentPage('compare')
+  }
+
   const pages = {
     'dashboard': (
       <Dashboard
         decisions={decisions}
         onDeleteDecision={handleDeleteDecision}
         onNavigate={setCurrentPage}
+        onOpenComparison={handleOpenComparison}
       />
     ),
     'new-decision': <NewDecision onAddDecision={handleAddDecision} />,
-    'compare': <CompareOptions />,
+    'compare': (
+      <CompareOptions
+        decisions={decisions}
+        selectedDecisionId={selectedDecisionId}
+        onSelectDecision={setSelectedDecisionId}
+        onUpdateDecision={handleUpdateDecision}
+        onNavigate={setCurrentPage}
+      />
+    ),
     'tree': <DecisionTree />,
     'outcomes': <Outcomes />,
   }
