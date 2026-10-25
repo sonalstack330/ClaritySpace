@@ -1,4 +1,5 @@
 import { calculateScores } from '../utils/scoring'
+import AssumptionsLog from '../components/AssumptionsLog'
 
 const starterOptions = [
   { id: 'option-a', name: 'Option A' },
@@ -300,6 +301,12 @@ function CompareOptions({
           </div>
         ))}
       </section>
+
+      <AssumptionsLog
+        key={decision.id}
+        decision={decision}
+        onUpdateDecision={onUpdateDecision}
+      />
     </>
   )
 }
