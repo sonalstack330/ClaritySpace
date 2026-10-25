@@ -20,9 +20,44 @@ const initialRatings = {
 }
 
 function CompareOptions() {
-  const [options] = useState(initialOptions)
+  const [options, setOptions] = useState(initialOptions)
   const [criteria, setCriteria] = useState(initialCriteria)
   const [ratings, setRatings] = useState(initialRatings)
+
+  function handleOptionNameChange(optionId, name) {
+    setOptions(
+      options.map((option) =>
+        option.id === optionId ? { ...option, name } : option
+      )
+    )
+  }
+
+  function handleAddOption() {
+    setOptions([...options, { id: crypto.randomUUID(), name: 'New option' }])
+  }
+
+  function handleRemoveOption(optionId) {
+    setOptions(options.filter((option) => option.id !== optionId))
+  }
+
+  function handleCriterionNameChange(criterionId, name) {
+    setCriteria(
+      criteria.map((criterion) =>
+        criterion.id === criterionId ? { ...criterion, name } : criterion
+      )
+    )
+  }
+
+  function handleAddCriterion() {
+    setCriteria([
+      ...criteria,
+      { id: crypto.randomUUID(), name: 'New criterion', weight: 3 },
+    ])
+  }
+
+  function handleRemoveCriterion(criterionId) {
+    setCriteria(criteria.filter((criterion) => criterion.id !== criterionId))
+  }
 
   function handleWeightChange(criterionId, value) {
     setCriteria(
@@ -45,7 +80,7 @@ function CompareOptions() {
   }
 
   const results = calculateScores(options, criteria, ratings)
-  const bestPercent = Math.max(...results.map((result) => result.percent))
+  const bestPercent = Math.max(0, ...results.map((result) => result.percent))
 
   return (
     <>
@@ -62,14 +97,54 @@ function CompareOptions() {
                 <th>Criterion</th>
                 <th>Importance</th>
                 {options.map((option) => (
-                  <th key={option.id}>{option.name}</th>
+                  <th key={option.id}>
+                    <div className="name-edit">
+                      <input
+                        type="text"
+                        className="name-input"
+                        value={option.name}
+                        aria-label="Option name"
+                        onChange={(event) =>
+                          handleOptionNameChange(option.id, event.target.value)
+                        }
+                      />
+                      <button
+                        type="button"
+                        className="icon-button"
+                        aria-label="Remove option"
+                        onClick={() => handleRemoveOption(option.id)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {criteria.map((criterion) => (
                 <tr key={criterion.id}>
-                  <td>{criterion.name}</td>
+                  <td>
+                    <div className="name-edit">
+                      <input
+                        type="text"
+                        className="name-input"
+                        value={criterion.name}
+                        aria-label="Criterion name"
+                        onChange={(event) =>
+                          handleCriterionNameChange(criterion.id, event.target.value)
+                        }
+                      />
+                      <button
+                        type="button"
+                        className="icon-button"
+                        aria-label="Remove criterion"
+                        onClick={() => handleRemoveCriterion(criterion.id)}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </td>
                   <td>
                     <div className="weight-control">
                       <input
@@ -107,6 +182,19 @@ function CompareOptions() {
             </tbody>
           </table>
         </div>
+
+        <div className="matrix-actions">
+          <button type="button" className="button" onClick={handleAddOption}>
+            Add option
+          </button>
+          <button
+            type="button"
+            className="button secondary"
+            onClick={handleAddCriterion}
+          >
+            Add criterion
+          </button>
+        </div>
       </section>
 
       <section className="results">
@@ -117,7 +205,7 @@ function CompareOptions() {
               result.percent === bestPercent && bestPercent > 0 ? 'best' : ''
             }`}
           >
-            <h3>{result.name}</h3>
+            <h3>{result.name || 'Untitled option'}</h3>
             <p className="score-percent">{result.percent}%</p>
             <div className="score-bar">
               <div
@@ -133,4 +221,3 @@ function CompareOptions() {
 }
 
 export default CompareOptions
-
