@@ -1,28 +1,92 @@
-import { useLocalStorage } from '../hooks/useLocalStorage'
 import { calculateScores } from '../utils/scoring'
 
-const initialOptions = [
-  { id: 'java', name: 'Learn Java and Spring Boot' },
-  { id: 'frontend', name: 'Learn frontend development' },
-  { id: 'aptitude', name: 'Prepare for aptitude and interviews' },
+const starterOptions = [
+  { id: 'option-a', name: 'Option A' },
+  { id: 'option-b', name: 'Option B' },
 ]
 
-const initialCriteria = [
-  { id: 'career', name: 'Career relevance', weight: 5 },
-  { id: 'interest', name: 'Personal interest', weight: 4 },
-  { id: 'timefit', name: 'Time fit', weight: 3 },
-]
+const starterCriteria = [{ id: 'criterion-1', name: 'Criterion 1', weight: 3 }]
 
-const initialRatings = {
-  java: { career: 5, interest: 4, timefit: 3 },
-  frontend: { career: 4, interest: 5, timefit: 4 },
-  aptitude: { career: 4, interest: 3, timefit: 4 },
-}
+const starterRatings = {}
 
-function CompareOptions() {
-  const [options, setOptions] = useLocalStorage('clarityspace-options', initialOptions)
-  const [criteria, setCriteria] = useLocalStorage('clarityspace-criteria', initialCriteria)
-  const [ratings, setRatings] = useLocalStorage('clarityspace-ratings', initialRatings)
+function CompareOptions({
+  decisions,
+  selectedDecisionId,
+  onSelectDecision,
+  onUpdateDecision,
+  onNavigate,
+}) {
+  const decision = decisions.find((item) => item.id === selectedDecisionId)
+
+  if (decisions.length === 0) {
+    return (
+      <>
+        <header className="page-header">
+          <h2>Compare Options</h2>
+          <p>Rate your options against what matters to you.</p>
+        </header>
+        <section className="card">
+          <h3>No decisions yet</h3>
+          <p>Create a decision first, then compare its options here.</p>
+          <button
+            type="button"
+            className="button"
+            onClick={() => onNavigate('new-decision')}
+          >
+            New decision
+          </button>
+        </section>
+      </>
+    )
+  }
+
+  const picker = (
+    <div className="form-field">
+      <label htmlFor="decision-picker">Decision</label>
+      <select
+        id="decision-picker"
+        value={decision ? decision.id : ''}
+        onChange={(event) => onSelectDecision(event.target.value)}
+      >
+        <option value="" disabled>
+          Choose a decision
+        </option>
+        {decisions.map((item) => (
+          <option key={item.id} value={item.id}>
+            {item.title}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+
+  if (!decision) {
+    return (
+      <>
+        <header className="page-header">
+          <h2>Compare Options</h2>
+          <p>Choose which decision you want to work on.</p>
+        </header>
+        <section className="card">{picker}</section>
+      </>
+    )
+  }
+
+  const options = decision.options ?? starterOptions
+  const criteria = decision.criteria ?? starterCriteria
+  const ratings = decision.ratings ?? starterRatings
+
+  function setOptions(value) {
+    onUpdateDecision(decision.id, { options: value })
+  }
+
+  function setCriteria(value) {
+    onUpdateDecision(decision.id, { criteria: value })
+  }
+
+  function setRatings(value) {
+    onUpdateDecision(decision.id, { ratings: value })
+  }
 
   function handleOptionNameChange(optionId, name) {
     setOptions(
@@ -79,10 +143,15 @@ function CompareOptions() {
     })
   }
 
-    function handleReset() {
-    setOptions(initialOptions)
-    setCriteria(initialCriteria)
-    setRatings(initialRatings)
+  function handleStartOver() {
+    const confirmed = window.confirm('Clear this comparison and start over?')
+    if (confirmed) {
+      onUpdateDecision(decision.id, {
+        options: starterOptions,
+        criteria: starterCriteria,
+        ratings: starterRatings,
+      })
+    }
   }
 
   const results = calculateScores(options, criteria, ratings)
@@ -96,6 +165,8 @@ function CompareOptions() {
       </header>
 
       <section className="card">
+        {picker}
+
         <div className="matrix-wrapper">
           <table className="matrix">
             <thead>
@@ -200,12 +271,12 @@ function CompareOptions() {
           >
             Add criterion
           </button>
-                    <button
+          <button
             type="button"
             className="button secondary"
-            onClick={handleReset}
+            onClick={handleStartOver}
           >
-            Reset to sample
+            Start over
           </button>
         </div>
       </section>
