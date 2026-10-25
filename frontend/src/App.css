@@ -150,3 +150,67 @@
   background-color: var(--color-primary);
   transition: width 0.3s ease;
 }
+/* Editable names */
+.name-edit {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.name-input {
+  width: 100%;
+  min-width: 120px;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.name-input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.icon-button {
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background-color: var(--color-border);
+  color: var(--color-danger);
+}
+
+/* Buttons */
+.matrix-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.button {
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.button.secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+.button:hover {
+  opacity: 0.9;
+}
