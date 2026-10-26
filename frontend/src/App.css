@@ -414,3 +414,58 @@
   margin: 0;
   color: var(--color-text-muted);
 }
+/* Outcomes */
+.outcome-group {
+  margin-bottom: 2rem;
+}
+
+.group-title {
+  margin: 0 0 0.75rem 0;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.outcome-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.outcome-header h3 {
+  margin: 0;
+}
+
+.outcome-header .badge {
+  margin-left: 0;
+  white-space: nowrap;
+}
+
+.outcome-summary {
+  margin: 0 0 1.25rem 0;
+}
+
+.outcome-summary dt {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.outcome-summary dd {
+  margin: 0 0 0.75rem 0;
+}
+
+.badge.verdict-good {
+  background-color: var(--color-success);
+  color: var(--color-text);
+}
+
+.badge.verdict-neutral {
+  background-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.badge.verdict-bad {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
