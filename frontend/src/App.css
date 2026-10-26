@@ -469,3 +469,7 @@
   background-color: var(--color-danger);
   color: #ffffff;
 }
+.custom-choice {
+  display: block;
+  margin-top: 0.5rem;
+}
