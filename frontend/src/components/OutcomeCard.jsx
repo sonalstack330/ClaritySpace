@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const OTHER = '__other__'
+
 const verdicts = [
   { value: 'good', label: 'Went well' },
   { value: 'neutral', label: 'Neutral' },
@@ -27,15 +29,22 @@ function OutcomeCard({ decision, onUpdateDecision }) {
   const isDue =
     status === 'decided' && decision.revisitOn && decision.revisitOn <= getToday()
 
-  const [chosenOption, setChosenOption] = useState(decision.chosenOption ?? '')
+  const optionNames = options.map((option) => option.name)
+  const savedChoice = decision.chosenOption ?? ''
+  const savedIsCustom = savedChoice !== '' && !optionNames.includes(savedChoice)
+
+  const [choice, setChoice] = useState(savedIsCustom ? OTHER : savedChoice)
+  const [customChoice, setCustomChoice] = useState(savedIsCustom ? savedChoice : '')
   const [expectedResult, setExpectedResult] = useState(decision.expectedResult ?? '')
   const [actualResult, setActualResult] = useState(decision.actualResult ?? '')
   const [verdict, setVerdict] = useState(decision.verdict ?? 'good')
 
+  const showCustom = options.length === 0 || choice === OTHER
+
   function handleDecide(event) {
     event.preventDefault()
 
-    const trimmedChoice = chosenOption.trim()
+    const trimmedChoice = (showCustom ? customChoice : choice).trim()
     if (trimmedChoice === '') return
 
     onUpdateDecision(decision.id, {
@@ -78,19 +87,38 @@ function OutcomeCard({ decision, onUpdateDecision }) {
         <form onSubmit={handleDecide}>
           <div className="form-field">
             <label htmlFor={`chosen-${decision.id}`}>What did you choose?</label>
-            <input
-              id={`chosen-${decision.id}`}
-              type="text"
-              list={`options-${decision.id}`}
-              value={chosenOption}
-              placeholder="Pick one of your options or type your own"
-              onChange={(event) => setChosenOption(event.target.value)}
-            />
-            <datalist id={`options-${decision.id}`}>
-              {options.map((option) => (
-                <option key={option.id} value={option.name} />
-              ))}
-            </datalist>
+
+            {options.length > 0 && (
+              <select
+                id={`chosen-${decision.id}`}
+                value={choice}
+                onChange={(event) => setChoice(event.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Choose one of your options
+                </option>
+                {options.map((option) => (
+                  <option key={option.id} value={option.name}>
+                    {option.name}
+                  </option>
+                ))}
+                <option value={OTHER}>Something else...</option>
+              </select>
+            )}
+
+            {showCustom && (
+              <input
+                id={options.length === 0 ? `chosen-${decision.id}` : undefined}
+                type="text"
+                className="custom-choice"
+                value={customChoice}
+                placeholder="Type what you chose"
+                aria-label="Your choice"
+                onChange={(event) => setCustomChoice(event.target.value)}
+                required
+              />
+            )}
           </div>
 
           <div className="form-field">
