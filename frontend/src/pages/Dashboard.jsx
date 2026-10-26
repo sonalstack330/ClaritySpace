@@ -3,10 +3,18 @@ function getToday() {
 }
 
 function Dashboard({ decisions, onDeleteDecision, onNavigate, onOpenComparison }) {
+  const statusLabels = {
+  active: 'Deciding',
+  decided: 'Decided',
+  reviewed: 'Reviewed',
+}
   const today = getToday()
   const activeCount = decisions.filter((decision) => decision.status === 'active').length
-  const dueCount = decisions.filter(
-    (decision) => decision.revisitOn && decision.revisitOn <= today
+   const dueCount = decisions.filter(
+    (decision) =>
+      decision.status !== 'reviewed' &&
+      decision.revisitOn &&
+      decision.revisitOn <= today
   ).length
 
   function handleDelete(decision) {
@@ -49,7 +57,10 @@ function Dashboard({ decisions, onDeleteDecision, onNavigate, onOpenComparison }
       ) : (
         <section className="decision-list">
           {decisions.map((decision) => {
-            const isDue = decision.revisitOn && decision.revisitOn <= today
+                        const isDue =
+              decision.status !== 'reviewed' &&
+              decision.revisitOn &&
+              decision.revisitOn <= today
 
             return (
               <article key={decision.id} className="card decision-item">
@@ -71,13 +82,16 @@ function Dashboard({ decisions, onDeleteDecision, onNavigate, onOpenComparison }
 
                 <p className="decision-meta">
                   Created {new Date(decision.createdAt).toLocaleDateString()}
+                  <span className="badge">
+                    {statusLabels[decision.status ?? 'active']}
+                  </span>
                   {decision.revisitOn && (
                     <span className={`badge ${isDue ? 'due' : ''}`}>
                       Look back: {decision.revisitOn}
                     </span>
                   )}
                 </p>
-                                <div className="decision-actions">
+                  <div className="decision-actions">
                   <button
                     type="button"
                     className="button secondary"
