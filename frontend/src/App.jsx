@@ -55,7 +55,13 @@ function App() {
       />
     ),
     'tree': <DecisionTree />,
-    'outcomes': <Outcomes />,
+    'outcomes': (
+      <Outcomes
+        decisions={decisions}
+        onUpdateDecision={handleUpdateDecision}
+        onNavigate={setCurrentPage}
+      />
+    ),
   }
 
   return (
