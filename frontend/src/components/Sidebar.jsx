@@ -1,4 +1,5 @@
 const menuItems = [
+  { id: 'home', label: 'Home' },
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'new-decision', label: 'New Decision' },
   { id: 'compare', label: 'Compare Options' },
