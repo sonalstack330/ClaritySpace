@@ -5,7 +5,6 @@ import Sidebar from './components/Sidebar'
 import Dashboard from './pages/Dashboard'
 import NewDecision from './pages/NewDecision'
 import CompareOptions from './pages/CompareOptions'
-import DecisionTree from './pages/DecisionTree'
 import Outcomes from './pages/Outcomes'
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
     setSelectedDecisionId(decisionId)
     setCurrentPage('compare')
   }
-
   const pages = {
     'dashboard': (
       <Dashboard
@@ -54,7 +52,6 @@ function App() {
         onNavigate={setCurrentPage}
       />
     ),
-    'tree': <DecisionTree />,
     'outcomes': (
       <Outcomes
         decisions={decisions}
@@ -63,7 +60,6 @@ function App() {
       />
     ),
   }
-
   return (
     <div className="app">
       <Sidebar currentPage={currentPage} onNavigate={setCurrentPage} />
