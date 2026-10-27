@@ -2,7 +2,6 @@ const menuItems = [
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'new-decision', label: 'New Decision' },
   { id: 'compare', label: 'Compare Options' },
-  { id: 'tree', label: 'Decision Tree' },
   { id: 'outcomes', label: 'Outcomes' },
 ]
 
