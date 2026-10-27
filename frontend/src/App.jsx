@@ -2,13 +2,14 @@ import { useState } from 'react'
 import './App.css'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import Sidebar from './components/Sidebar'
+import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import NewDecision from './pages/NewDecision'
 import CompareOptions from './pages/CompareOptions'
 import Outcomes from './pages/Outcomes'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('dashboard')
+  const [currentPage, setCurrentPage] = useState('home')
   const [selectedDecisionId, setSelectedDecisionId] = useState(null)
   const [decisions, setDecisions] = useLocalStorage('clarityspace-decisions', [])
 
@@ -33,7 +34,9 @@ function App() {
     setSelectedDecisionId(decisionId)
     setCurrentPage('compare')
   }
+
   const pages = {
+    'home': <Home onNavigate={setCurrentPage} />,
     'dashboard': (
       <Dashboard
         decisions={decisions}
@@ -60,6 +63,7 @@ function App() {
       />
     ),
   }
+
   return (
     <div className="app">
       <Sidebar currentPage={currentPage} onNavigate={setCurrentPage} />
