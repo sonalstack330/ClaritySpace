@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import ReversibilityNote from '../components/ReversibilityNote'
 
 function NewDecision({ onAddDecision }) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [revisitOn, setRevisitOn] = useState('')
+  const [reversibility, setReversibility] = useState(3)
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -16,6 +18,7 @@ function NewDecision({ onAddDecision }) {
       title: trimmedTitle,
       description: description.trim(),
       revisitOn,
+      reversibility,
       status: 'active',
       createdAt: new Date().toISOString(),
     })
@@ -23,6 +26,7 @@ function NewDecision({ onAddDecision }) {
     setTitle('')
     setDescription('')
     setRevisitOn('')
+    setReversibility(3)
   }
 
   return (
@@ -55,6 +59,26 @@ function NewDecision({ onAddDecision }) {
               placeholder="Why does this decision matter? What is making it hard?"
               onChange={(event) => setDescription(event.target.value)}
             ></textarea>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="reversibility">
+              How easy would this be to undo later?
+            </label>
+            <input
+              id="reversibility"
+              type="range"
+              min="1"
+              max="5"
+              step="1"
+              value={reversibility}
+              onChange={(event) => setReversibility(Number(event.target.value))}
+            />
+            <div className="range-labels">
+              <span>Easy to undo</span>
+              <span>Hard to undo</span>
+            </div>
+            <ReversibilityNote level={reversibility} />
           </div>
 
           <div className="form-field">
