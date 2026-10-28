@@ -1,5 +1,6 @@
 import { calculateScores } from '../utils/scoring'
 import AssumptionsLog from '../components/AssumptionsLog'
+import ReversibilityNote from '../components/ReversibilityNote'
 
 const starterOptions = [
   { id: 'option-a', name: 'Option A' },
@@ -68,7 +69,11 @@ function CompareOptions({
           <h2>Compare Options</h2>
           <p>Choose which decision you want to work on.</p>
         </header>
-        <section className="card">{picker}</section>
+        <section className="card">
+          {picker}
+           <ReversibilityNote level={decision.reversibility} />
+          
+          </section>
       </>
     )
   }
