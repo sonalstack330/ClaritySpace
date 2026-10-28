@@ -16,7 +16,7 @@ const statusLabels = {
 
 function getVerdictLabel(value) {
   const match = verdicts.find((verdict) => verdict.value === value)
-  return match ? match.label : ''
+  return match ? match.label : '' 
 }
 
 function getToday() {
@@ -37,6 +37,7 @@ function OutcomeCard({ decision, onUpdateDecision }) {
   const [customChoice, setCustomChoice] = useState(savedIsCustom ? savedChoice : '')
   const [expectedResult, setExpectedResult] = useState(decision.expectedResult ?? '')
   const [actualResult, setActualResult] = useState(decision.actualResult ?? '')
+  const [lesson, setLesson] = useState(decision.lessonLearned ?? '')
   const [verdict, setVerdict] = useState(decision.verdict ?? 'good')
 
   const showCustom = options.length === 0 || choice === OTHER
@@ -61,6 +62,7 @@ function OutcomeCard({ decision, onUpdateDecision }) {
     onUpdateDecision(decision.id, {
       status: 'reviewed',
       actualResult: actualResult.trim(),
+            lessonLearned: lesson.trim(),
       verdict,
       reviewedAt: new Date().toISOString(),
     })
@@ -139,7 +141,6 @@ function OutcomeCard({ decision, onUpdateDecision }) {
           </button>
         </form>
       )}
-
       {status !== 'active' && (
         <dl className="outcome-summary">
           <dt>You chose</dt>
@@ -162,10 +163,17 @@ function OutcomeCard({ decision, onUpdateDecision }) {
             </>
           )}
 
-          {status === 'reviewed' && (
+        {status === 'reviewed' && (
             <>
               <dt>What actually happened</dt>
               <dd>{decision.actualResult || 'No details written.'}</dd>
+
+              {decision.lessonLearned && (
+                <>
+                  <dt>What you learned</dt>
+                  <dd>{decision.lessonLearned}</dd>
+                </>
+              )}
             </>
           )}
         </dl>
@@ -181,6 +189,17 @@ function OutcomeCard({ decision, onUpdateDecision }) {
               value={actualResult}
               placeholder="Compare it with what you expected"
               onChange={(event) => setActualResult(event.target.value)}
+            ></textarea>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor={`lesson-${decision.id}`}>What did you learn?</label>
+            <textarea
+              id={`lesson-${decision.id}`}
+              rows="3"
+              value={lesson}
+              placeholder="What would you do differently, or do the same, next time?"
+              onChange={(event) => setLesson(event.target.value)}
             ></textarea>
           </div>
 
