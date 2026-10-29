@@ -547,3 +547,42 @@
   color: #ffffff;
   font-weight: 600;
 }
+/* Reversibility */
+.form-field input[type='range'] {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  accent-color: var(--color-primary);
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.advice {
+  max-width: 600px;
+  margin: 0.75rem 0 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid;
+  border-radius: 8px;
+  line-height: 1.5;
+}
+
+.advice-easy {
+  background-color: var(--sage-light);
+  border-color: var(--sage);
+}
+
+.advice-moderate {
+  background-color: var(--mist);
+  border-color: var(--sky);
+}
+
+.advice-hard {
+  background-color: #fbeee0;
+  border-color: var(--color-warning);
+}
