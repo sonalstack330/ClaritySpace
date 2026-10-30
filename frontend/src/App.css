@@ -586,3 +586,78 @@
   background-color: #fbeee0;
   border-color: var(--color-warning);
 }
+/* Decision breakdown */
+.breakdown {
+  margin-top: 1.5rem;
+}
+
+.breakdown h3 {
+  margin-top: 0;
+}
+
+.breakdown-subtitle {
+  margin: 1.25rem 0 0.5rem 0;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.factor-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.factor-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.factor-item .badge {
+  margin-left: 0;
+  min-width: 8.5rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.factor-detail {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.badge.kind-strong-advantage {
+  background-color: var(--sage);
+  color: var(--color-text);
+}
+
+.badge.kind-advantage {
+  background-color: var(--sage-light);
+  border: 1px solid var(--sage);
+  color: var(--color-text);
+}
+
+.badge.kind-even {
+  background-color: var(--mist);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+.badge.kind-weakness {
+  background-color: #fbeee0;
+  border: 1px solid var(--color-warning);
+  color: var(--color-text);
+}
+
+.badge.kind-strong-weakness {
+  background-color: var(--color-danger);
+  color: #ffffff;
+}
+
+.badge.kind-unrated {
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-text-muted);
+  color: var(--color-text-muted);
+}
