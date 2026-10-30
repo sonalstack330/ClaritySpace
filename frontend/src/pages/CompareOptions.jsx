@@ -1,6 +1,7 @@
 import { calculateScores } from '../utils/scoring'
 import AssumptionsLog from '../components/AssumptionsLog'
 import ReversibilityNote from '../components/ReversibilityNote'
+import DecisionBreakdown from '../components/DecisionBreakdown'
 
 const starterOptions = [
   { id: 'option-a', name: 'Option A' },
@@ -306,6 +307,12 @@ function CompareOptions({
           </div>
         ))}
       </section>
+
+      <DecisionBreakdown
+        options={options}
+        criteria={criteria}
+        ratings={ratings}
+      />
 
       <AssumptionsLog
         key={decision.id}
